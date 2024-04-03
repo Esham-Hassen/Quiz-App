@@ -73,9 +73,15 @@ function answer(selection) {
   console.log("selectedChoice", selectedChoice); // der letzte string ausgeben lassen.
   console.log("currentAnswer is", question["right_answer"]); // Auf der erste JSON zugreifen und auf right_answer.
 
+  let idOfrightAnswer = `answer_${question["right_answer"]}`
+
   if (selectedChoice == question["right_answer"]) { // selectedChoice und question vergleichen
     console.log("richtige antwort");
+    document.getElementById(selection).parentNode.classList.add('bg-success')
   } else {
     console.log("falsche antwort");
+    document.getElementById(selection).parentNode.classList.add('bg-danger')
+    document.getElementById(idOfrightAnswer).parentNode.classList.add('bg-success')
+
   }
 }

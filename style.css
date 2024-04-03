@@ -30,3 +30,7 @@ cursor: pointer;
 .d-red {
     color: red;
 }
+
+ .bg-success, .bg-danger {
+    color: white !important;
+}
