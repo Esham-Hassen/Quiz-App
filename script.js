@@ -73,18 +73,26 @@ function answer(selection) {
   console.log("selectedChoice", selectedChoice); // der letzte string ausgeben lassen.
   console.log("currentAnswer is", question["right_answer"]); // Auf der erste JSON zugreifen und auf right_answer.
 
-  let idOfrightAnswer = `answer_${question["right_answer"]}`;
+  let idOfrightAnswer = `answer_${question["right_answer"]}`; // Id von jeweiligen answer holen.
 
+  // Wenn selectedChoice und question anderstelle right_answer gleich sind den paren div die 
+  // klasse big success hinzufügen. 
   if (selectedChoice == question["right_answer"]) {
-    // selectedChoice und question vergleichen
     console.log("richtige antwort");
-    document.getElementById(selection).parentNode.classList.add("bg-success");
+    document.getElementById(selection).parentNode.classList.add("bg-success"); 
   } else {
+    // Wenn selectedChoice und question anderstelle right_answer nicht gleich sind den paren div die 
+  // klasse big danger hinzufügen und die richtige antwort anzeigen. 
     console.log("falsche antwort");
     document.getElementById(selection).parentNode.classList.add("bg-danger");
-    document
-      .getElementById(idOfrightAnswer)
-      .parentNode.classList.add("bg-success");
+    document.getElementById(idOfrightAnswer).parentNode.classList.add("bg-success");
   }
+   // Btn disable feature zurücksetzen.
   document.getElementById("next-button").disabled = false;
+}
+
+// Weitere JSON anzeigen.
+function nextQuestion() {
+  currentQuestion++; // currentQuestion um eins erhöhen.
+  showQuestion(); // showQuestion aufrufen.
 }
