@@ -50,20 +50,38 @@ let questions = [
 ];
 
 let currentQuestion = 0;
+let questionAmount = 0;
+let rightQuestions = 0;
 
 function init() {
+  // questionAmount++
   document.getElementById("question-length").innerHTML = questions.length; // Die länge vom JSON anzeigen.
   showQuestion(); // showQuestion() beim start aufrufen.
 }
 
+
 function showQuestion() {
   let question = questions[currentQuestion]; // Erste JSON holen.
+
+  if(currentQuestion >= questions.length) {
+document.getElementById('end-screen').style = "";
+document.getElementById('question-body').style = "display:none"
+
+// Fragenanzahl und richtige antworten anzahl und endscreen Bild anzeigen.
+document.getElementById('amountOfQuestions').innerHTML = questions.length;
+document.getElementById('amount-of-right-question').innerHTML = rightQuestions;
+document.getElementById('header-image').src = "img/trophy.jpg"
+document.getElementById('header-image').style = "height: 60vh"
+  } else {
+  document.getElementById('question-amount').innerHTML = currentQuestion + 1;
   document.getElementById("questiontext").innerHTML = question["question"]; // Die frage anzeigen.
   document.getElementById("answer_1").innerHTML = question["answer_1"]; // Die Antworten anzeigen.
   document.getElementById("answer_2").innerHTML = question["answer_2"];
   document.getElementById("answer_3").innerHTML = question["answer_3"];
   document.getElementById("answer_4").innerHTML = question["answer_4"];
 }
+}
+
 
 function answer(selection) {
   // selection param beinhaltet ('answer_1','answer_2','answer_3',..)
@@ -75,24 +93,43 @@ function answer(selection) {
 
   let idOfrightAnswer = `answer_${question["right_answer"]}`; // Id von jeweiligen answer holen.
 
-  // Wenn selectedChoice und question anderstelle right_answer gleich sind den paren div die 
-  // klasse big success hinzufügen. 
+  // Wenn selectedChoice und question anderstelle right_answer gleich sind den paren div die
+  // klasse big success hinzufügen.
   if (selectedChoice == question["right_answer"]) {
     console.log("richtige antwort");
-    document.getElementById(selection).parentNode.classList.add("bg-success"); 
+    document.getElementById(selection).parentNode.classList.add("bg-success");
+    rightQuestions++
   } else {
-    // Wenn selectedChoice und question anderstelle right_answer nicht gleich sind den paren div die 
-  // klasse big danger hinzufügen und die richtige antwort anzeigen. 
+    // Wenn selectedChoice und question anderstelle right_answer nicht gleich sind den paren div die
+    // klasse big danger hinzufügen und die richtige antwort anzeigen.
     console.log("falsche antwort");
     document.getElementById(selection).parentNode.classList.add("bg-danger");
-    document.getElementById(idOfrightAnswer).parentNode.classList.add("bg-success");
+    document
+      .getElementById(idOfrightAnswer)
+      .parentNode.classList.add("bg-success");
   }
-   // Btn disable feature zurücksetzen.
+  // Btn disable feature zurücksetzen.
   document.getElementById("next-button").disabled = false;
 }
+
 
 // Weitere JSON anzeigen.
 function nextQuestion() {
   currentQuestion++; // currentQuestion um eins erhöhen.
-  showQuestion(); // showQuestion aufrufen.
+  document.getElementById("next-button").disabled = true; // sobald die nächste frage erscheint der btn disablen.
+  resetButtons(); // resetButtons() aufrufen.
+  showQuestion(); // showQuestion() aufrufen.
+}
+
+
+function resetButtons() {
+  // Die bg-danger und bg-success von der jeweiligen antworten entfernen entfernen.
+  document.getElementById("answer_1").parentNode.classList.remove("bg-danger");
+  document.getElementById("answer_1").parentNode.classList.remove("bg-success");
+  document.getElementById("answer_2").parentNode.classList.remove("bg-danger");
+  document.getElementById("answer_2").parentNode.classList.remove("bg-success");
+  document.getElementById("answer_3").parentNode.classList.remove("bg-danger");
+  document.getElementById("answer_3").parentNode.classList.remove("bg-success");
+  document.getElementById("answer_4").parentNode.classList.remove("bg-danger");
+  document.getElementById("answer_4").parentNode.classList.remove("bg-success");
 }
