@@ -31,26 +31,37 @@
       </div>
     </nav>
 
-
+    <!-- Headline quiz image -->
     <div class="container">
       <div class="card quiz-card">
+        <h4 class="text-center">Take a quiz</h4>
         <img id="header-image" src="img/quiz.jpg" class="card-img-top" />
 
 
+        <!-- Progress bar -->
+        <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+          <div class="progress-bar" id="progress-bar" style="width: 25%">25%</div>
+        </div>
+
+
+        <!-- End quiz section -->
         <div class="card-body" id="end-screen" style="display: none">
           <div class="text-center end-screen-headline">Quiz Beendet</div>
 
 
+          <!-- Keeping track of how mony questions are answerd -->
           <div class="text-center">
-            Du hast <b id="amount-of-right-question"></b> Fragen von
-            <b id="amountOfQuestions"></b> richtig beantwortet.
+            Du hast von <b id="amountOfQuestions"></b> Fragen
+            <b id="amount-of-right-question"></b> richtig beantwortet.
           </div>
         </div>
 
 
+        <!-- Where the questions appear -->
         <div class="card-body" id="question-body">
           <h5 class="card-title" id="questiontext">Frage</h5>
 
+          <!-- Where the answers appear -->
           <div class="card mb-2 quiz-answer-card" onclick="answer('answer_1')">
             <div class="card-body" id="answer_1">Antwort</div>
           </div>
@@ -65,11 +76,13 @@
             <div class="card-body" id="answer_3">Antwort</div>
           </div>
 
+
           <div class="card mb-2 quiz-answer-card" onclick="answer('answer_4')">
             <div class="card-body" id="answer_4">Antwort</div>
           </div>
 
 
+          <!-- Footer -->
           <div class="question-footer">
             <span>
               <b id="question-amount">1</b> von

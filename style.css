@@ -1,9 +1,9 @@
-body {
-    background-color: #007AFF !important;
+body {   
+    background-color: #ccd0d5 !important;
 }
 
 .container {
-    background-color: #007AFF ;
+    background-color: #ccd0d5 !important;
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -26,6 +26,7 @@ body {
 background-color: rgba(0, 0, 0, 0.05);
 cursor: pointer;
 }
+
 
 .d-red {
     color: red;
@@ -51,3 +52,9 @@ cursor: pointer;
 .header-image {
     height: 60vh;
 }
+
+/* .progress-bar {
+    width: 0%; 
+    background-color: #007bff; 
+    height: 100%; 
+}  */
