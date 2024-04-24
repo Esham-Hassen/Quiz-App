@@ -49,12 +49,15 @@ cursor: pointer;
     margin-bottom: 32px;
 }
 
-.header-image {
-    height: 60vh;
+
+.button-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
 }
 
-/* .progress-bar {
-    width: 0%; 
-    background-color: #007bff; 
-    height: 100%; 
-}  */
+@media (min-width:320px)  {
+    .container {
+        padding: 0 !important;
+    }
+}

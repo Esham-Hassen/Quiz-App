@@ -25,38 +25,54 @@
 
   <body onload="init()">
     <!-- As a heading -->
-    <nav class="navbar bg-body-tertiary">
-      <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1">Quiz App</span>
+    <!-- <nav class="navbar bg-body-tertiary">
+      <div class="container-fluid ">
+        <span class=" navbar-brand mb-0 h1 ">Quiz App</span>
       </div>
-    </nav>
+    </nav> -->
 
     <!-- Headline quiz image -->
     <div class="container">
       <div class="card quiz-card">
         <h4 class="text-center">Take a quiz</h4>
-        <img id="header-image" src="img/quiz.jpg" class="card-img-top" />
-
+        <img  id="header-image" src="img/quiz.jpg" class="card-img-top" />
 
         <!-- Progress bar -->
-        <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-          <div class="progress-bar" id="progress-bar" style="width: 25%">25%</div>
+        <div
+          class="progress"
+          role="progressbar"
+          aria-label="Example with label"
+          aria-valuenow="25"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        >
+          <div class="progress-bar" id="progress-bar" style="width: 25%">
+            25%
+          </div>
         </div>
-
 
         <!-- End quiz section -->
         <div class="card-body" id="end-screen" style="display: none">
           <div class="text-center end-screen-headline">Quiz Beendet</div>
-
 
           <!-- Keeping track of how mony questions are answerd -->
           <div class="text-center">
             Du hast von <b id="amountOfQuestions"></b> Fragen
             <b id="amount-of-right-question"></b> richtig beantwortet.
           </div>
+
+          <div class="button-row">
+            <button
+            onclick="restartGame()"
+        
+            class="btn btn-primary"
+          >
+            Erneuert spielan
+          </button>
+          </div>
         </div>
-
-
+      
+    
         <!-- Where the questions appear -->
         <div class="card-body" id="question-body">
           <h5 class="card-title" id="questiontext">Frage</h5>
@@ -66,21 +82,17 @@
             <div class="card-body" id="answer_1">Antwort</div>
           </div>
 
-
           <div class="card mb-2 quiz-answer-card" onclick="answer('answer_2')">
             <div class="card-body" id="answer_2">Antwort</div>
           </div>
-
 
           <div class="card mb-2 quiz-answer-card" onclick="answer('answer_3')">
             <div class="card-body" id="answer_3">Antwort</div>
           </div>
 
-
           <div class="card mb-2 quiz-answer-card" onclick="answer('answer_4')">
             <div class="card-body" id="answer_4">Antwort</div>
           </div>
-
 
           <!-- Footer -->
           <div class="question-footer">

@@ -9,7 +9,7 @@ let questions = [
   },
   {
     question: "What is the name of the world’s longest river?",
-    answer_1: "Nile",
+    answer_1: "The Nile River",
     answer_2: "The Amazon River",
     answer_3: "The Mississippi River",
     answer_4: "The Yangtze River",
@@ -50,12 +50,13 @@ let questions = [
 ];
 
 let currentQuestion = 0;
-// let questionAmount = 0;
 let rightQuestions = 0;
+let Audio_success = new Audio('audio/success.mp3');
+let Audio_fail = new Audio('audio/fail.mp3')
+
 
 function init() {
   // Die Gesmate frage anzeigen
-  document.getElementById("progress-bar").style.width = "0%";
   document.getElementById("question-length").innerHTML = questions.length;
   // showQuestion nach dem body geladen hat aufrufen.
   showQuestion();
@@ -65,38 +66,35 @@ function showQuestion() {
   let question = questions[currentQuestion]; // Erste JSON holen.
 
   if (currentQuestion >= questions.length) {
-    document.getElementById("end-screen").style = "";
+    document.getElementById('end-screen').style = ''
     document.getElementById("question-body").style = "display:none";
 
     // Fragenanzahl und richtige antworten anzahl und endscreen Bild anzeigen.
     document.getElementById("amountOfQuestions").innerHTML = questions.length;
     document.getElementById("amount-of-right-question").innerHTML =
-      rightQuestions;
+      rightQuestions++;
     document.getElementById("header-image").src = "img/trophy.jpg";
-    document.getElementById("header-image").style = "height: 60vh";
     setpercentageBar(currentQuestion);
   } else {
-    setpercentageBar(currentQuestion)
+    setpercentageBar(currentQuestion);
   }
 }
 
-
 function setpercentageBar(currentQuestion) {
   let question = questions[currentQuestion];
-    let percent = (currentQuestion) / questions.length;
-     percent = Math.round(percent * 100);
-    console.log(percent);
-    document.getElementById("progress-bar").innerHTML = `${percent}%`;
-    document.getElementById("progress-bar").style = `width:${percent}%`;
+  let percent = currentQuestion / questions.length;
+  percent = Math.round(percent * 100);
+  console.log(percent);
+  document.getElementById("progress-bar").innerHTML = `${percent}%`;
+  document.getElementById("progress-bar").style = `width:${percent}%`;
 
-    document.getElementById("question-amount").innerHTML = currentQuestion + 1;
-    document.getElementById("questiontext").innerHTML = question["question"]; // Die frage anzeigen.
-    document.getElementById("answer_1").innerHTML = question["answer_1"]; // Die Antworten anzeigen.
-    document.getElementById("answer_2").innerHTML = question["answer_2"];
-    document.getElementById("answer_3").innerHTML = question["answer_3"];
-    document.getElementById("answer_4").innerHTML = question["answer_4"];
+  document.getElementById("question-amount").innerHTML = currentQuestion + 1;
+  document.getElementById("questiontext").innerHTML = question["question"]; // Die frage anzeigen.
+  document.getElementById("answer_1").innerHTML = question["answer_1"]; // Die Antworten anzeigen.
+  document.getElementById("answer_2").innerHTML = question["answer_2"];
+  document.getElementById("answer_3").innerHTML = question["answer_3"];
+  document.getElementById("answer_4").innerHTML = question["answer_4"];
 }
-
 
 function answer(selection) {
   // selection param beinhaltet ('answer_1','answer_2','answer_3',..)
@@ -114,6 +112,7 @@ function answer(selection) {
     console.log("richtige antwort");
     document.getElementById(selection).parentNode.classList.add("bg-success");
     rightQuestions++;
+    Audio_success.play();
   } else {
     // Wenn selectedChoice und question anderstelle right_answer nicht gleich sind den paren div die
     // klasse big danger hinzufügen und die richtige antwort anzeigen.
@@ -122,6 +121,7 @@ function answer(selection) {
     document
       .getElementById(idOfrightAnswer)
       .parentNode.classList.add("bg-success");
+      Audio_fail.play();
   }
   // Btn disable feature zurücksetzen.
   document.getElementById("next-button").disabled = false;
@@ -145,4 +145,14 @@ function resetButtons() {
   document.getElementById("answer_3").parentNode.classList.remove("bg-success");
   document.getElementById("answer_4").parentNode.classList.remove("bg-danger");
   document.getElementById("answer_4").parentNode.classList.remove("bg-success");
+}
+
+function restartGame() {
+  document.getElementById("header-image").src = "img/quiz.jpg";
+  document.getElementById('end-screen').style = 'display: none';
+  document.getElementById('question-body').style = '';
+
+  currentQuestion = 0;
+  rightQuestions = 0;
+  init();
 }
