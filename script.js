@@ -49,22 +49,23 @@ let questions = [
   },
 ];
 
+
 let currentQuestion = 0;
 let rightQuestions = 0;
 let Audio_success = new Audio('audio/success.mp3');
 let Audio_fail = new Audio('audio/fail.mp3')
 
-
+// QUIZ initializieren.
 function init() {
-  // Die Gesmate frage anzeigen
+  // Die länge der fragen festlegen.
   document.getElementById("question-length").innerHTML = questions.length;
-  // showQuestion nach dem body geladen hat aufrufen.
   showQuestion();
 }
 
 function showQuestion() {
   let question = questions[currentQuestion]; // Erste JSON holen.
 
+  // Wenn currentQuestion >= questions.length endscreen anzeigen.
   if (currentQuestion >= questions.length) {
     document.getElementById('end-screen').style = ''
     document.getElementById("question-body").style = "display:none";
@@ -75,48 +76,46 @@ function showQuestion() {
       rightQuestions++;
     document.getElementById("header-image").src = "img/trophy.jpg";
     setpercentageBar(currentQuestion);
-  } else {
-    setpercentageBar(currentQuestion);
-  }
-}
 
-function setpercentageBar(currentQuestion) {
-  let question = questions[currentQuestion];
-  let percent = currentQuestion / questions.length;
-  percent = Math.round(percent * 100);
+  } else {
+    // progress bar calculieren.
+    percent = Math.round(percent * 100);
   console.log(percent);
   document.getElementById("progress-bar").innerHTML = `${percent}%`;
   document.getElementById("progress-bar").style = `width:${percent}%`;
 
+  // Alle fragen und antworten anzeigen.
   document.getElementById("question-amount").innerHTML = currentQuestion + 1;
-  document.getElementById("questiontext").innerHTML = question["question"]; // Die frage anzeigen.
-  document.getElementById("answer_1").innerHTML = question["answer_1"]; // Die Antworten anzeigen.
+  document.getElementById("questiontext").innerHTML = question["question"]; 
+  document.getElementById("answer_1").innerHTML = question["answer_1"]; 
   document.getElementById("answer_2").innerHTML = question["answer_2"];
   document.getElementById("answer_3").innerHTML = question["answer_3"];
   document.getElementById("answer_4").innerHTML = question["answer_4"];
+  }
 }
 
-function answer(selection) {
-  // selection param beinhaltet ('answer_1','answer_2','answer_3',..)
-  let question = questions[currentQuestion]; // Erste JSON holen.
-  console.log("selected answer is", selection); // je nachdem auf welcher antwort man clickt ausloggen lassen.
-  let selectedChoice = selection.slice(-1); // von answer_1... der letzte string holen(bsp. 1,2,3..)
-  console.log("selectedChoice", selectedChoice); // der letzte string ausgeben lassen.
-  console.log("currentAnswer is", question["right_answer"]); // Auf der erste JSON zugreifen und auf right_answer.
 
+// funktion um user antworten zu beobachten.
+function answer(selection) {
+  // Erste JSON holen.
+  let question = questions[currentQuestion]; 
+  // letzte index von selection hole.
+  let selectedChoice = selection.slice(-1); // von answer_1... der letzte string holen(bsp. 1,2,3..)
+ 
+    // Get the index of the correct answer
+  console.log("currentAnswer is", question["right_answer"]); 
+
+  // Get the id of the correct answer element
   let idOfrightAnswer = `answer_${question["right_answer"]}`; // Id von jeweiligen answer holen.
 
-  // Wenn selectedChoice und question anderstelle right_answer gleich sind den paren div die
-  // klasse big success hinzufügen.
+ // Antworten vergleichen.
   if (selectedChoice == question["right_answer"]) {
-    console.log("richtige antwort");
+   // Wenn richtig grün malen und richtige antwort erhöhen und success music spielen.
     document.getElementById(selection).parentNode.classList.add("bg-success");
     rightQuestions++;
     Audio_success.play();
   } else {
-    // Wenn selectedChoice und question anderstelle right_answer nicht gleich sind den paren div die
-    // klasse big danger hinzufügen und die richtige antwort anzeigen.
-    console.log("falsche antwort");
+   // Wenn falsch rot malen, gleichzeitig richtige antwort anzeigen und fail music spielen.
     document.getElementById(selection).parentNode.classList.add("bg-danger");
     document
       .getElementById(idOfrightAnswer)
@@ -129,14 +128,16 @@ function answer(selection) {
 
 // Weitere JSON anzeigen.
 function nextQuestion() {
-  currentQuestion++; // currentQuestion um eins erhöhen.
-  document.getElementById("next-button").disabled = true; // sobald die nächste frage erscheint der btn disablen.
-  resetButtons(); // resetButtons() aufrufen.
-  showQuestion(); // showQuestion() aufrufen.
+  // currentQuestion um eins erhöhen.
+  currentQuestion++; 
+   // sobald die nächste frage erscheint der btn disablen.
+  document.getElementById("next-button").disabled = true;
+  resetButtons();
+  showQuestion();
 }
 
 function resetButtons() {
-  // Die bg-danger und bg-success von der jeweiligen antworten entfernen entfernen.
+  // Die bg-danger und bg-success von der jeweiligen antworten entfernen.
   document.getElementById("answer_1").parentNode.classList.remove("bg-danger");
   document.getElementById("answer_1").parentNode.classList.remove("bg-success");
   document.getElementById("answer_2").parentNode.classList.remove("bg-danger");
@@ -147,11 +148,14 @@ function resetButtons() {
   document.getElementById("answer_4").parentNode.classList.remove("bg-success");
 }
 
+// Game neue starten.
 function restartGame() {
+  // Endscreen verstcken und question body anzeigen.
   document.getElementById("header-image").src = "img/quiz.jpg";
   document.getElementById('end-screen').style = 'display: none';
   document.getElementById('question-body').style = '';
 
+  //  currentQuestion und rightQuestions auf null setzen und die function init() neu ausführen.
   currentQuestion = 0;
   rightQuestions = 0;
   init();
