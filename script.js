@@ -49,11 +49,10 @@ let questions = [
   },
 ];
 
-
 let currentQuestion = 0;
 let rightQuestions = 0;
-let Audio_success = new Audio('audio/success.mp3');
-let Audio_fail = new Audio('audio/fail.mp3')
+let Audio_success = new Audio("audio/success.mp3");
+let Audio_fail = new Audio("audio/fail.mp3");
 
 // QUIZ initializieren.
 function init() {
@@ -66,75 +65,95 @@ function showQuestion() {
   let question = questions[currentQuestion]; // Erste JSON holen.
 
   // Wenn currentQuestion >= questions.length endscreen anzeigen.
-  if (currentQuestion >= questions.length) {
-    document.getElementById('end-screen').style = ''
-    document.getElementById("question-body").style = "display:none";
+  if (isGameOver()) {
+    endscreen();
 
-    // Fragenanzahl und richtige antworten anzahl und endscreen Bild anzeigen.
-    document.getElementById("amountOfQuestions").innerHTML = questions.length;
-    document.getElementById("amount-of-right-question").innerHTML =
-      rightQuestions++;
-    document.getElementById("header-image").src = "img/trophy.jpg";
-    setpercentageBar(currentQuestion);
-
+    updatePercentageBar(currentQuestion);
   } else {
-    // progress bar calculieren.
-    percent = Math.round(percent * 100);
-  console.log(percent);
-  document.getElementById("progress-bar").innerHTML = `${percent}%`;
-  document.getElementById("progress-bar").style = `width:${percent}%`;
-
-  // Alle fragen und antworten anzeigen.
-  document.getElementById("question-amount").innerHTML = currentQuestion + 1;
-  document.getElementById("questiontext").innerHTML = question["question"]; 
-  document.getElementById("answer_1").innerHTML = question["answer_1"]; 
-  document.getElementById("answer_2").innerHTML = question["answer_2"];
-  document.getElementById("answer_3").innerHTML = question["answer_3"];
-  document.getElementById("answer_4").innerHTML = question["answer_4"];
+    updatePercentageBar(currentQuestion);
+    updateToNextQuestion(question);
   }
 }
 
+function isGameOver() {
+  return currentQuestion >= questions.length;
+}
+
+function endscreen() {
+  document.getElementById("end-screen").style = "";
+  document.getElementById("question-body").style = "display:none";
+
+  // Fragenanzahl und richtige antworten anzahl und endscreen Bild anzeigen.
+  document.getElementById("amountOfQuestions").innerHTML = questions.length;
+  document.getElementById("amount-of-right-question").innerHTML =
+    rightQuestions++;
+  document.getElementById("header-image").src = "img/trophy.jpg";
+}
+
+function updateToNextQuestion(question) {
+  document.getElementById("question-amount").innerHTML = currentQuestion + 1;
+  document.getElementById("questiontext").innerHTML = question["question"];
+  document.getElementById("answer_1").innerHTML = question["answer_1"];
+  document.getElementById("answer_2").innerHTML = question["answer_2"];
+  document.getElementById("answer_3").innerHTML = question["answer_3"];
+  document.getElementById("answer_4").innerHTML = question["answer_4"];
+}
+
+function updatePercentageBar(currentQuestion) {
+  let percent = currentQuestion / questions.length;
+  percent = Math.round(percent * 100);
+  document.getElementById("progress-bar").innerHTML = `${percent}%`;
+  document.getElementById("progress-bar").style = `width:${percent}%`;
+}
 
 // funktion um user antworten zu beobachten.
 function answer(selection) {
   // Erste JSON holen.
-  let question = questions[currentQuestion]; 
+  let question = questions[currentQuestion];
   // letzte index von selection hole.
   let selectedChoice = selection.slice(-1); // von answer_1... der letzte string holen(bsp. 1,2,3..)
- 
-    // Get the index of the correct answer
-  console.log("currentAnswer is", question["right_answer"]); 
+
+  // Get the index of the correct answer
+  console.log("currentAnswer is", question["right_answer"]);
 
   // Get the id of the correct answer element
   let idOfrightAnswer = `answer_${question["right_answer"]}`; // Id von jeweiligen answer holen.
 
- // Antworten vergleichen.
-  if (selectedChoice == question["right_answer"]) {
-   // Wenn richtig grün malen und richtige antwort erhöhen und success music spielen.
+  // Antworten vergleichen.
+  if (rightAnswerSelected(selectedChoice)) {
+    // Wenn richtig grün malen und richtige antwort erhöhen und success music spielen.
     document.getElementById(selection).parentNode.classList.add("bg-success");
     rightQuestions++;
     Audio_success.play();
   } else {
-   // Wenn falsch rot malen, gleichzeitig richtige antwort anzeigen und fail music spielen.
+    // Wenn falsch rot malen, gleichzeitig richtige antwort anzeigen und fail music spielen.
     document.getElementById(selection).parentNode.classList.add("bg-danger");
     document
       .getElementById(idOfrightAnswer)
       .parentNode.classList.add("bg-success");
-      Audio_fail.play();
+    Audio_fail.play();
   }
   // Btn disable feature zurücksetzen.
   document.getElementById("next-button").disabled = false;
 }
 
+
+function rightAnswerSelected(selectedChoice) {
+  let question = questions[currentQuestion];
+  return selectedChoice == question["right_answer"]
+}
+
 // Weitere JSON anzeigen.
 function nextQuestion() {
   // currentQuestion um eins erhöhen.
-  currentQuestion++; 
-   // sobald die nächste frage erscheint der btn disablen.
+  currentQuestion++;
+  // sobald die nächste frage erscheint der btn disablen.
   document.getElementById("next-button").disabled = true;
   resetButtons();
   showQuestion();
-}
+};
+
+
 
 function resetButtons() {
   // Die bg-danger und bg-success von der jeweiligen antworten entfernen.
@@ -152,11 +171,12 @@ function resetButtons() {
 function restartGame() {
   // Endscreen verstcken und question body anzeigen.
   document.getElementById("header-image").src = "img/quiz.jpg";
-  document.getElementById('end-screen').style = 'display: none';
-  document.getElementById('question-body').style = '';
+  document.getElementById("end-screen").style = "display: none";
+  document.getElementById("question-body").style = "";
 
   //  currentQuestion und rightQuestions auf null setzen und die function init() neu ausführen.
   currentQuestion = 0;
   rightQuestions = 0;
   init();
 }
+
